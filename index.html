@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дни рождения</title>
+</head>
+
+<body>
+    <div class="background">
+        <div class="main-header">
+            <img src="./assets/cake-candles.svg" alt="Иконка">
+            <h1>Дни рождения</h1>
+        </div>
+        <div class="filters">
+            <div class="filter-date">
+                <p>Выберите месяц</p>
+                <div class="select-block">
+                    <select id="date">
+                        <option value="1">01 - январь</option>
+                        <option value="2">02 - февраль</option>
+                        <option value="3">03 - март</option>
+                        <option value="4">04 - апрель</option>
+                        <option value="5">05 - май</option>
+                        <option value="6">06 - июнь</option>
+                        <option value="7">07 - июль</option>
+                        <option value="8">08 - август</option>
+                        <option value="9">09 - сентябрь</option>
+                        <option value="10">10 - октябрь</option>
+                        <option value="11">11 - ноябрь</option>
+                        <option value="12">12 - декабрь</option>
+                    </select>
+                </div>
+            </div>
+            <div class="arrow">
+                <img src="./assets/angle-right-solid.svg" alt="arrow">
+            </div>
+            <div class="filter-category">
+                <p>Выберите категорию</p>
+                <div class="select-block">
+                    <!-- Выбор категории пока запрещен -->
+                    <select id="category" disabled>
+                        <option selected="" value="all">все</option>
+                        <option value="family">семья</option>
+                        <option value="bsu">коллеги БГУ</option>
+                        <option value="friends">друзья</option>
+                        <option value="others">знакомые</option>
+                    </select>
+                </div>
+            </div>
+            <div class="meanings">
+                <h3 class="meanings-title">Условные обозначения к списку:</h3>
+                <div class="meanings-block">
+                    <div class="meanings-items">
+                        <div class="common-date">1</div>
+                        <div class="meaning-text">- день, месяц</div>
+                    </div>
+                    <div class="meanings-items">
+                        <div class="common-date dateMark">2</div>
+                        <div class="meaning-text">- день, месяц приближающегося дня рождения</div>
+                    </div>
+                    <div class="meanings-items">
+                        <div class="common-date birthDay">3</div>
+                        <div class="meaning-text">- день рождения сегодня!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2>Результаты</h2>
+        <div class="stat-info">
+            <div>Текущий месяц: <span class="monthName"></span>.
+                В этом месяце день рождения у <span class="personAmount"></span> <span class="personWord"></span> из
+                списка.
+            </div>
+        </div>
+        <div class="results-block">
+            <table id="infoTable">
+                <thead class="header">
+                    <tr>
+                        <th class="date">День</th>
+                        <th class="date">Месяц</th>
+                        <th class="year">Год</th>
+                        <th class="name">ФИО</th>
+                        <th class="category">Категория</th>
+                        <th class="contacts">Контакты</th>
+                        <th class="email">E-mail</th>
+                        <th class="other">Примечание</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
