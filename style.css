@@ -236,3 +236,65 @@ td {
     color: rgb(0, 0, 0);
     text-align: center;
 }
+
+
+/* ----------------------------------Media queries ------------------------------*/
+
+@media screen and (max-width:1100px) {
+
+    .filters {
+        width: 85%;
+        column-gap: 20px;
+    }
+
+}
+
+@media screen and (max-width:700px) {
+
+    html {
+        width: 100%;
+    }
+
+    body {
+        background-color: rgb(253, 253, 234);
+    }
+
+    .filters {
+        width: 70%;
+    }
+
+    .results-block th,
+    .results-block td {
+        font-size: 14px;
+    }
+
+    .results-block table {
+        width: 100%;
+    }
+
+    td {
+        padding-left: 2px;
+    }
+
+}
+
+@media screen and (max-width:500px) {
+    body {
+        background-color: rgb(237, 253, 234);
+    }
+
+    html {
+        width: 100%;
+    }
+
+    .filters {
+        grid-template-areas: "filter-date"
+            "filter-category";
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.5fr 0.5fr;
+        row-gap: 10px;
+        width: 40%;
+        margin-bottom: 40px;
+    }
+
+}
