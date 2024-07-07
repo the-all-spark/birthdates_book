@@ -1,0 +1,238 @@
+html {
+    width: 90%;
+    margin: auto;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    border: 1px solid rgb(218, 218, 218);
+    box-shadow: 3px 3px 5px rgb(218, 218, 218);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    min-height: 90vh;
+}
+
+/* ----------------- Main styles. Main header -------------------- */
+
+.background {
+    display: grid;
+    grid-template-areas: "header-main"
+        "filters"
+        "header-results"
+        "statistics"
+        "table-results";
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.1fr 0.2fr 0.1fr 0.08fr 0.6fr;
+    background-image: url('./assets/paper.jpg');
+    background-position: left top;
+    background-repeat: repeat;
+    margin: 0 auto;
+    row-gap: 20px;
+}
+
+.main-header {
+    grid-area: header-main;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+h1 {
+    color: rgb(154, 3, 26);
+}
+
+.main-header img {
+    height: 40px;
+    filter: opacity(0.3);
+}
+
+/* ----------------------- Filters ----------------------- */
+.filters {
+    grid-area: filters;
+    display: grid;
+    grid-template-areas: "filter-date arrow filter-category meanings";
+    grid-template-columns: 0.3fr 0.1fr 0.3fr 0.5fr;
+    grid-template-rows: 1fr;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 25px;
+}
+
+.filters p {
+    margin-bottom: 7px;
+}
+
+.filter-date {
+    grid-area: filter-date;
+    justify-self: center;
+}
+
+.filter-category {
+    grid-area: filter-category;
+    justify-self: center;
+}
+
+.arrow {
+    grid-area: arrow;
+    width: 50%;
+    justify-self: center;
+    align-self: flex-start;
+    filter: opacity(0.1);
+    margin-top: 10px;
+}
+
+/* -------------------------- App meanings ------------------------------ */
+
+.meanings {
+    grid-area: meanings;
+    justify-self: center;
+}
+
+.meanings-title {
+    text-align: center;
+    font-size: 14px;
+}
+
+.meanings-items {
+    margin: 3px 0;
+}
+
+.common-date {
+    display: inline-block;
+    padding: 5px 8px;
+    border: 1px solid rgb(152, 152, 152);
+}
+
+.meaning-text {
+    display: inline-block;
+    font-size: 14px;
+}
+
+/* -------------------- Statistics ------------------------ */
+
+h2 {
+    grid-area: header-results;
+    margin: auto;
+}
+
+.stat-info {
+    grid-area: statistics;
+    justify-self: center;
+    align-self: center;
+    font-size: 14px;
+    font-style: italic;
+}
+
+.monthName,
+.personAmount {
+    color: brown;
+}
+
+/* ----------------------- Results -------------------------- */
+
+.results-block {
+    grid-area: table-results;
+    margin-bottom: 30px;
+}
+
+.results-block table {
+    margin: auto;
+    width: 90%;
+    border: 1px solid rgb(152, 152, 152);
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid rgb(152, 152, 152);
+
+}
+
+th {
+    background-color: rgb(245 237 234);
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+td {
+    padding-left: 7px;
+}
+
+.warning {
+    width: 100%;
+    text-align: center;
+    color: brown;
+}
+
+.additional {
+    font-size: 12px;
+}
+
+.ageNumber {
+    font-size: 12px;
+}
+
+/*--------- Header of table --------*/
+
+.date {
+    width: 6%;
+    text-align: center;
+    padding: 5px;
+}
+
+.year {
+    width: 9%;
+    text-align: center;
+}
+
+.name {
+    width: 25%;
+}
+
+.email {
+    width: 20%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.contacts {
+    width: 22%;
+    text-align: center;
+    font-size: 14px;
+}
+
+.phone {
+    color: rgb(154, 3, 26);
+}
+
+.category {
+    width: 12%;
+    font-size: 14px;
+    text-align: center;
+}
+
+.other {
+    padding: 5px;
+}
+
+/* ---------- Bithday marks ----------- */
+
+.birthDay,
+.dateMark {
+    color: brown;
+    text-align: center;
+}
+
+.birthDay {
+    font-weight: bold;
+    background-color: rgb(247, 231, 227);
+}
+
+.dateNumber {
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
