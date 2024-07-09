@@ -188,12 +188,39 @@ function filters() {
 
         // ----- вывод предупреждения после таблицы, если результат отсутствует, и запуск сортировки строк, если их больше 1 ----- 
 
-        
-        
-        
+        if (count === 0) {
+            let infoTable = document.getElementById("infoTable");
+            let warning = `<p class="warning">Людей с днями рождения в данном месяце <b>нет</b>. Выберите другой месяц.</p>`;
+            infoTable.insertAdjacentHTML("afterend", warning);
+
+        } else if (count > 1) {
+            showSortedRows();
+        }
 
     }
 
+    // ----------- Функция сортировки выведенных строк по дате - от меньшей к большей ------------
+    /* 
+     - получаем доступ к таблице (#infoTable),
+     - получаем все строки таблицы и сохраняем их в массив sortedRows,
+     - берем все элементы кроме первого (шапки таблицы),
+     - сортируем строки (если полученное число > 0, то строки поменяются местами)
+     - получаем доступ к тегу tbody, отображаем в нем отсортированные строки (каждый элемент в виде строки <tr>)
+    */
+
+    function showSortedRows() {
+        console.log("Запуск сортировки строк!");
+
+        let table = document.querySelector("#infoTable");
+
+        let sortedRows = Array.from(table.rows)
+            .slice(1)
+            .sort((rowA, rowB) => {
+                return rowA.cells[0].innerHTML - rowB.cells[0].innerHTML;
+            });
+
+        table.tBodies[0].append(...sortedRows);
+    }
 
 
 
