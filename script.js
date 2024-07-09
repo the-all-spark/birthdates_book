@@ -234,7 +234,7 @@ function filters() {
      - запускаем функцию, которая выводит корректное склонение слова "человек" в зависимости от количества людей
     */
 
-     function showStatistics(monthStr) {
+    function showStatistics(monthStr) {
         console.log("Запуск просчета статистики");
 
         let monthName = monthStr.slice(5); //с 5го индекса и до конца строки
@@ -260,13 +260,31 @@ function filters() {
             statPersonAmountPlace.prepend(rowAmount);
         }
 
-        //correctPersonWord(rowAmount); //функция принимает количество рядов (человек) в результате
+        correctPersonWord(rowAmount); //функция принимает количество рядов (человек) в результате
     }
 
+    // -------------- Функция склонения слова "человек" в статистике в зависимости от количества людей в результате ------------------ 
+    /*
+     (принимает количество строк в результате, т.е. количество человек)
+     - получаем доступ к элементу для вывода слова,
+     - объявляем новую переменную personWord,
+     - склоняем слово человек
+     - если элемент уже содержит какую-то информацию, очищаем его и обновляем данные
+    */
 
+    function correctPersonWord(rowAmount) {
+        let personPlace = document.querySelector(".personWord");
+        let personWord;
 
+        if (rowAmount == 1 || (rowAmount % 10) == 1) {
+            personWord = "человека";
+        } else {
+            personWord = "человек";
+        }
 
-
+        personPlace.textContent = "";
+        personPlace.prepend(personWord);
+    }
 
 }
 
@@ -334,7 +352,7 @@ let persons = {
     },
 
     10: {
-        id: 10, day: 15, month: 4, year: 1971,
+        id: 10, day: 15, month: 4, year: "-",
         name: "Имя 10", nickname: "", category: "job", media: "Viber",
         links: "", phone: "+000-00-000-00-10", email: "email10@gmail.com", addinfo: ""
     },
@@ -376,9 +394,9 @@ let persons = {
     },
 
     17: {
-        id: 17, day: 9, month: 7, year: "-",
+        id: 17, day: 9, month: 7, year: 2000,
         name: "Имя 17", nickname: "Ник 17", category: "friends", media: "Viber",
-        links: "", phone: "+000-00-000-00-17", email: "", addinfo: ""
+        links: "", phone: "+000-00-000-00-17", email: "email17@gmail.com", addinfo: ""
     },
 
 };
