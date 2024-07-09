@@ -26,9 +26,37 @@ function filters() {
         }
     };
 
+    // -------- запуск функции при смене опции в фильтре ----------
 
+    dateFilter.onchange = function () {
+        console.log("Запуск функции по смене фильтра");
 
+        //получить доступ к строке с предупреждением; если она присутствует (не null) - удалить 
+        let warningBlock = document.querySelector(".warning");
 
+        if (warningBlock != null) {
+            warningBlock.remove();
+        }
+
+        //записать в переменную текущее число строк в таблице
+        let rowAmount = document.getElementsByTagName('tr');
+
+        //проверить сколько строк с таблице (если == 1, значит отображается только шапка и надо вывести информацию)
+        if (rowAmount.length == 1) {
+            showDates(this.value); //вызов функции с текущим значением value
+            showStatistics(optionsArray[this.value - 1].innerHTML); //вывод статистики
+
+        } else {
+            console.log("Убирается старая инфа");
+
+            let createdBlock = document.querySelector(".results"); //доступ к блоку, в котором содержится выведенная информация
+            createdBlock.remove();  //удаление блока
+
+            showDates(this.value);
+            showStatistics(optionsArray[this.value - 1].innerHTML);
+        }
+
+    }
 
     // ----------- Функция вывода строк таблицы с информацией, предупреждения ------------
     // (передается значение текущего месяца (цифрой))
@@ -323,7 +351,7 @@ let persons = {
 
     5: {
         id: 5, day: 6, month: 5, year: 1993,
-        name: "Имя 5", nickname: "Ник 5", category: "job", media: "Telegram,",
+        name: "Имя 5", nickname: "Ник 5", category: "job", media: "Telegram",
         links: "@name5", phone: "+000-00-000-00-05", email: "", addinfo: ""
     },
 
@@ -352,7 +380,7 @@ let persons = {
     },
 
     10: {
-        id: 10, day: 15, month: 4, year: "-",
+        id: 10, day: 19, month: 4, year: "-",
         name: "Имя 10", nickname: "", category: "job", media: "Viber",
         links: "", phone: "+000-00-000-00-10", email: "email10@gmail.com", addinfo: ""
     },
@@ -377,7 +405,7 @@ let persons = {
 
     14: {
         id: 14, day: 26, month: 4, year: "200-",
-        name: "", nickname: "ник 14", category: "others", media: "Viber, Telegram",
+        name: "", nickname: "Ник 14", category: "others", media: "Viber, Telegram",
         links: "", phone: "", email: "", addinfo: "из фитнес-клуба"
     },
 
