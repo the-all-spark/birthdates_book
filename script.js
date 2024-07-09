@@ -22,7 +22,7 @@ function filters() {
                 //console.log(optionsArray[i]);
 
             showDates(currentMonth);
-            //showStatistics(optionsArray[i].innerHTML); //информация для статистики берется из текста ("12 - декабрь")
+            showStatistics(optionsArray[i].innerHTML); //информация для статистики берется из текста ("12 - декабрь")
         }
     };
 
@@ -221,6 +221,49 @@ function filters() {
 
         table.tBodies[0].append(...sortedRows);
     }
+
+    // ------- Функция отображения исходной статистики по текущему месяцу (данные поступают в формате "12 - декабрь") ------
+    /*
+     - очищаем входные данные (убираем число, оставляем название месяца)
+     - получаем доступ к элементу с классом monthName, куда будет добавляться название месяца, 
+        и элементу с классом personAmount с количеством человек, у которых ДР в текущем месяце
+     - считаем количество строк в результате (элементов массива) (кроме первой строки - шапки таблицы)
+     - проверяем длину содержимого (наличие) в строке количества человек. 
+        - Если оно равно нулю (т.е. данные еще не были выведены), выводим количество человек и текущий месяц.
+        - Если значение больше нуля (данные были выведены ранее), очищаем предыдущий вывод статистики и обновляем информацию.
+     - запускаем функцию, которая выводит корректное склонение слова "человек" в зависимости от количества людей
+    */
+
+     function showStatistics(monthStr) {
+        console.log("Запуск просчета статистики");
+
+        let monthName = monthStr.slice(5); //с 5го индекса и до конца строки
+        //console.log(monthStr);  //12 - декабрь
+        //console.log(monthName); //декабрь
+
+        let statMonthPlace = document.querySelector(".monthName");
+        let statPersonAmountPlace = document.querySelector('.personAmount');
+
+        let rowAmount = Array.from(document.getElementsByTagName("tr"))
+            .slice(1)
+            .length;
+
+        if (statPersonAmountPlace.textContent.length == 0) {
+            statMonthPlace.prepend(monthName);
+            statPersonAmountPlace.prepend(rowAmount);
+
+        } else {
+            statMonthPlace.innerHTML = "";
+            statPersonAmountPlace.textContent = "";
+
+            statMonthPlace.prepend(monthName);
+            statPersonAmountPlace.prepend(rowAmount);
+        }
+
+        //correctPersonWord(rowAmount); //функция принимает количество рядов (человек) в результате
+    }
+
+
 
 
 
