@@ -3,6 +3,201 @@ window.addEventListener('load',filters);
 function filters() {
     console.log("Фильтры готовы к использованию!");
 
+    const dateFilter = document.getElementById('date');   //доступ к фильтру с месяцами
+
+    // Получить текущую дату, месяц, массив опций из фильтра "Выберите месяц"
+
+    let now = new Date();
+    let currentMonth = now.getMonth() + 1;
+    let optionsArray = Array.from(dateFilter);
+
+        //console.log(`${now} - текущая дата`);
+        //console.log(`${currentMonth} - текущий месяц`);
+
+    for (let i in optionsArray) {
+        if (currentMonth == (optionsArray[i].index) + 1) {
+            optionsArray[i].setAttribute("selected", "");
+
+                //console.log(optionsArray[i].innerHTML);
+                //console.log(optionsArray[i]);
+
+            showDates(currentMonth);
+            //showStatistics(optionsArray[i].innerHTML); //информация для статистики берется из текста ("12 - декабрь")
+        }
+    };
+
+
+
+
+
+    // ----------- Функция вывода строк таблицы с информацией, предупреждения ------------
+    // (передается значение текущего месяца (цифрой))
+    /*
+     - определяет возраст (выводит в формате "--- лет"). Слово "год" склоняется
+     - категория из элементов объекта в таблице выводится на русском языке
+     - отмечаются цветом ближайшие дни рождения 
+     - если в объекте присутствует никнейм, к нему добавляются скобки (если нет имени, только никнейм, он выводится без скобок)
+     - составляется строка, если месяц рождения совпадает с текущим, увеливается счетчик общего количества строк
+     - выводится предупреждение, если строки в результате отсутствуют (иначе запускается сортировка строк)
+    */
+
+     function showDates(monthNumber) {
+
+        let header = document.querySelector(".header"); //получить доступ к содержимому thead таблицы
+
+        let htmlTbody = document.createElement("tbody"); //создать элемент tbody
+        htmlTbody.className = "results"; //назначать элементу tbody класс results
+
+        //создать переменную с текущей датой
+        let currentDate = new Date();
+
+        //создать переменную, которая будет хранить число строк в результате,
+        let count = 0;
+
+        //перебрать все элементы объекта persons
+        for (let i in persons) {
+
+            //сравнить значение текущего месяца со значением, хранящимся в свойстве month элемента объекта
+            if (persons[i].month == monthNumber) {
+                //console.log("Вот тут собирается строчка!");
+
+                // ----- вывести год рождения и возраст: -----
+
+                //создать переменную с датой рождения (значения берутся из объекта)
+                let birthdayDate = new Date(`${persons[i].year}-${persons[i].month}-${persons[i].day}`);
+
+                let age = currentDate.getFullYear() - birthdayDate.getFullYear();
+
+                let ending; // склонение год (лет)
+                let ageInfo; // возраст "цифра год(лет)"
+
+                //если год в объекте - число, тогда рассчитать текущий возраст age:
+                if (!isNaN(persons[i].year)) {
+
+                    if (currentDate.getMonth() < birthdayDate.getMonth() ||
+                        (currentDate.getMonth() == birthdayDate.getMonth() && currentDate.getDate() < birthdayDate.getDate())) {
+                        age--;
+                    }
+
+                    //перевести значение переменной возраста (age) в строку, определить последний и предпоследний символ
+                    //определить склонение слова (год - года - лет)
+                    let ageInString = age.toString();
+                    let lastSymbol = +ageInString[ageInString.length - 1];
+                    let prevSymbol = parseInt(age / 10);
+
+                    if (prevSymbol == 1) {
+                        ending = "лет";
+                    } else {
+                        switch (lastSymbol) {
+                            case 1:
+                                ending = "год"; break;
+                            case 2:
+                            case 3:
+                            case 4:
+                                ending = "года"; break;
+                            default:
+                                ending = "лет"; break;
+                        }
+                    }
+                    ageInfo = `(${age} ${ending})`;
+
+                } 
+                
+                // если значение года - не число (год указан как "19--"), строка "-" или пустая строка ""
+                if(isNaN(persons[i].year) || typeof(persons[i].year) === "string") {
+                    age = "";
+                    ending = "";
+                    ageInfo = "";
+                    persons[i].year = "..."
+                }
+
+                // ----- записать название категории на русском языке -----
+
+                let categoryEN = persons[i].category;
+                let categoryRU;
+
+                switch (categoryEN) {
+                    case "family":
+                        categoryRU = "семья"; break;
+                    case "job":
+                        categoryRU = "коллеги"; break;
+                    case "friends":
+                        categoryRU = "друзья"; break;
+                    case "others":
+                        categoryRU = "знакомые"; break;
+                    default:
+                        categoryRU = "без категории"; break;
+                }
+
+                // ----- отметить ближайшие дни рождения цветом (меньше чем через неделю и день в день) -----
+
+                let daysBeforeBithday = birthdayDate.getDate() - currentDate.getDate();
+                let classToMark;
+
+                if (currentDate.getMonth() == birthdayDate.getMonth() && daysBeforeBithday == 0) {
+                    classToMark = "birthDay";
+                        //console.log(`* ${classToMark} - ДР СЕГОДНЯ!! `);
+
+                } else if (currentDate.getMonth() == birthdayDate.getMonth() && daysBeforeBithday > 0 && daysBeforeBithday < 8) {
+                    classToMark = "dateMark";
+                        //console.log(`* ${classToMark} - ДР меньше чем через неделю!!`);
+
+                } else {
+                    classToMark = "dateNumber";
+                        //console.log(`* ${classToMark} - Просто дата.`);
+                }
+
+                // ----- добавление скобок к никнейму, если он присутствует в объекте -----
+                // если есть никнейм, но нет имени - скобки убираем (никнейм выводится без скобок)
+
+                let nickname = persons[i].nickname;
+                let name = persons[i].name;
+
+                let nicknameOutput;
+
+                if (nickname.length !== 0 && name.length !== 0) {
+                    nicknameOutput = `(${persons[i].nickname})`;
+                } else if (nickname.length !== 0 && name.length == 0) {
+                    nicknameOutput = persons[i].nickname;
+                } else {
+                    nicknameOutput = "";
+                }
+
+                // ----- построить строку таблицы, если месяцы совпадают -----
+
+                let rowBlock = `<tr id="number${persons[i].id}">
+                                    <td class="${classToMark}">${persons[i].day}</td>
+                                    <td class="${classToMark}">${persons[i].month}</td>
+                                    <td>${persons[i].year}<br><span class="ageNumber">${ageInfo}</span></td>
+                                    <td class="name"><b>${persons[i].name}</b> ${nicknameOutput}</td>
+                                    <td class="category">${categoryRU}</td>
+                                    <td class="contacts">${persons[i].media} <a href="${persons[i].links}" target=" _blank">${persons[i].links}</a><br><span class="phone">${persons[i].phone}</span></td>
+                                    <td class="email">${persons[i].email}</td>
+                                    <td class="additional">${persons[i].addinfo}</td>
+                                </tr>`
+
+                //добавить строки к элементу tbody
+                htmlTbody.insertAdjacentHTML("beforeend", rowBlock);
+
+                //console.log("Строчка собралась!!!");
+                count++; //увеличить счетчик строк
+            }
+        }
+        header.after(htmlTbody); //вставить элемент tbody после элемента thead
+        console.log(`${count} - число строк выведенной информации`);
+
+        // ----- вывод предупреждения после таблицы, если результат отсутствует, и запуск сортировки строк, если их больше 1 ----- 
+
+        
+        
+        
+
+    }
+
+
+
+
+
 }
 
 //--------------- Данные для таблицы - в объекте persons ------------------
@@ -93,7 +288,7 @@ let persons = {
     },
 
     14: {
-        id: 14, day: 26, month: 4, year: 2004,
+        id: 14, day: 26, month: 4, year: "200-",
         name: "", nickname: "ник 14", category: "others", media: "Viber, Telegram",
         links: "", phone: "", email: "", addinfo: "из фитнес-клуба"
     },
@@ -105,13 +300,13 @@ let persons = {
     },
 
     16: {
-        id: 16, day: 18, month: 7, year: 1989,
+        id: 16, day: 22, month: 7, year: "",
         name: "", nickname: "Ник 16", category: "others", media: "Viber",
         links: "", phone: "+000-00-000-00-16", email: "", addinfo: "из бассейна"
     },
 
     17: {
-        id: 17, day: 22, month: 7, year: 2001,
+        id: 17, day: 9, month: 7, year: "-",
         name: "Имя 17", nickname: "Ник 17", category: "friends", media: "Viber",
         links: "", phone: "+000-00-000-00-17", email: "", addinfo: ""
     },
