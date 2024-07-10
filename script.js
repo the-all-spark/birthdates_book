@@ -40,8 +40,9 @@ function filters() {
         switchMonth(month); //переключение на месяц
     }
 
-
-
+    // -------- Переключиться на следующий месяц при клике на кнопку "Вправо" ---------
+    let nextMonthBtn = document.querySelector(".next-month-btn");
+    nextMonthBtn.addEventListener("click", switchToNextMonth);
 
     // ----- Функция удаляет атрибут у ранее выбранных опций фильтра и устанавливает этот атрибут текущему выбору
     //(принимает значение месяца (цифру)
@@ -96,9 +97,33 @@ function filters() {
 
     }
 
+    // ----- Функция переключения на следующий месяц при клике на кнопку "Вправо"
 
+    function switchToNextMonth() {
+        // находим текущий месяц с установленным атрибутом data-status="active"
+        for (let i in optionsArray) {
 
-    
+            if(optionsArray[i].dataset.status == "active") {
+                let selectedMonth = optionsArray[i].attributes.value.textContent;
+                console.log(`${selectedMonth} - выбранный (текущий) месяц`);
+                
+                removeSetAttributes(selectedMonth); // убираем / устанавливаем атрибут
+                
+                switchMonth(parseInt(selectedMonth) + 1); // переключаем на следующий месяц (от текущего/выбранного)
+                selectedMonth++;
+                console.log(`Следующий месяц: ${parseInt(selectedMonth) + 1}`);
+                
+                //удаляем атрибут выбранному (текущему) месяцу
+                optionsArray[i].removeAttribute("data-status"); 
+
+                //добавляем атрибут отображенному в таблице месяцу
+                let displayedMonth = optionsArray[selectedMonth - 1];
+                displayedMonth.setAttribute("data-status", "active");
+                
+                break; // прервать операцию на одном элементе
+            }   
+        }
+    }    
 
     // ----------- Функция вывода строк таблицы с информацией, предупреждения ------------
     // (передается значение текущего месяца (цифрой))
