@@ -1,7 +1,7 @@
 window.addEventListener('load',filters);
 
 function filters() {
-    console.log("Фильтры готовы к использованию!");
+    //console.log("Фильтры готовы к использованию!");
 
     const dateFilter = document.getElementById('date');   //доступ к фильтру с месяцами
 
@@ -14,12 +14,14 @@ function filters() {
         //console.log(`${now} - текущая дата`);
         //console.log(`${currentMonth} - текущий месяц`);
 
+    //перебрать опции фильтра: если текущий месяц совпадает со значением value (index), 
+    //то установить этому пункту атрибут selected (выбор по умолчанию) и data-status 
+    //и запустить функцию построения строк для текущего месяца
+
     for (let i in optionsArray) {
         if (currentMonth == (optionsArray[i].index) + 1) {
             optionsArray[i].setAttribute("selected", "");
-
-                //console.log(optionsArray[i].innerHTML);
-                //console.log(optionsArray[i]);
+            optionsArray[i].setAttribute("data-status", "active");
 
             showDates(currentMonth);
             showStatistics(optionsArray[i].innerHTML); //информация для статистики берется из текста ("12 - декабрь")
@@ -27,9 +29,46 @@ function filters() {
     };
 
     // -------- запуск функции при смене опции в фильтре ----------
+    dateFilter.addEventListener("change", function() { prepareToSwitchOption(this.value) });
 
-    dateFilter.onchange = function () {
-        console.log("Запуск функции по смене фильтра");
+    // функция принимает значение опции фильтра (месяц, на который переключились)
+    function prepareToSwitchOption(month) {
+        console.log("Запуск функции при смене фильтра");
+        console.log(month);
+        
+        removeSetAttributes(month); //удаление и добавление атрибута
+        switchMonth(month); //переключение на месяц
+    }
+
+
+
+
+    // ----- Функция удаляет атрибут у ранее выбранных опций фильтра и устанавливает этот атрибут текущему выбору
+    //(принимает значение месяца (цифру)
+    
+    function removeSetAttributes(month) {
+
+        for (let i in optionsArray) {
+
+            // убираем атрибут data-status="active" у выбранных ранее опций фильтра
+            //console.log(optionsArray[i].dataset.status);
+            if(optionsArray[i].dataset.status == "active") {
+                optionsArray[i].removeAttribute("data-status");
+            }
+
+            //ищем элемент с переданным в функцию значением value и устанавливаем ему атрибут data-status="active"
+            //console.log(optionsArray[i].attributes.value.textContent);
+            let chosenMonthNumber = optionsArray[i].attributes.value.textContent;
+            if(chosenMonthNumber == month) { // значения value в фильтре сравниваем с поступившим значением
+                optionsArray[i].setAttribute("data-status", "active"); // устанавливаем атрибут
+            }
+        }
+    }
+
+    // ------ Функция переключения на другой месяц (принимает значение месяца)
+    function switchMonth(month) {
+        //console.log("Переключаем месяц");
+        console.log(`Месяц на который переключили: ${month}`);
 
         //получить доступ к строке с предупреждением; если она присутствует (не null) - удалить 
         let warningBlock = document.querySelector(".warning");
@@ -43,20 +82,23 @@ function filters() {
 
         //проверить сколько строк с таблице (если == 1, значит отображается только шапка и надо вывести информацию)
         if (rowAmount.length == 1) {
-            showDates(this.value); //вызов функции с текущим значением value
-            showStatistics(optionsArray[this.value - 1].innerHTML); //вывод статистики
+            showDates(month); //вызов функции с текущим значением value
+            showStatistics(optionsArray[month - 1].innerHTML); //вывод статистики
 
         } else {
-            console.log("Убирается старая инфа");
-
+            //console.log("Убирается старая инфа");
             let createdBlock = document.querySelector(".results"); //доступ к блоку, в котором содержится выведенная информация
             createdBlock.remove();  //удаление блока
 
-            showDates(this.value);
-            showStatistics(optionsArray[this.value - 1].innerHTML);
+            showDates(month);
+            showStatistics(optionsArray[month - 1].innerHTML);
         }
 
     }
+
+
+
+    
 
     // ----------- Функция вывода строк таблицы с информацией, предупреждения ------------
     // (передается значение текущего месяца (цифрой))
@@ -237,7 +279,7 @@ function filters() {
     */
 
     function showSortedRows() {
-        console.log("Запуск сортировки строк!");
+        //console.log("Запуск сортировки строк!");
 
         let table = document.querySelector("#infoTable");
 
@@ -263,7 +305,7 @@ function filters() {
     */
 
     function showStatistics(monthStr) {
-        console.log("Запуск просчета статистики");
+        //console.log("Запуск просчета статистики");
 
         let monthName = monthStr.slice(5); //с 5го индекса и до конца строки
         //console.log(monthStr);  //12 - декабрь
