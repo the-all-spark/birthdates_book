@@ -50,6 +50,28 @@ h1 {
     filter: opacity(0.3);
 }
 
+/* -------------- Button ------------------ */
+
+.next-month-btn {
+    width: 50px;
+    padding: 5px 10px;
+    border: 2px solid rgb(152, 152, 152);
+    filter: opacity(0.2);
+    position: absolute;
+    top: 40px;
+    right: calc(0% + 90px);
+}
+
+.next-month-btn:hover {
+    cursor: pointer;
+    background-color: rgb(167, 111, 91);
+    border: 2px solid rgb(167, 111, 91);
+}
+
+.next-month-btn:hover img {
+    filter: invert(100%);
+}
+
 /* ----------------------- Filters ----------------------- */
 .filters {
     grid-area: filters;
