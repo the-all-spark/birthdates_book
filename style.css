@@ -28,6 +28,8 @@ body {
     background-repeat: repeat;
     margin: 0 auto;
     row-gap: 20px;
+    position: relative;
+    min-height: 90vh;
 }
 
 .main-header {
@@ -59,7 +61,8 @@ h1 {
     filter: opacity(0.2);
     position: absolute;
     top: 40px;
-    right: calc(0% + 90px);
+    right: calc(0% + 110px);
+    z-index: 99;
 }
 
 .next-month-btn:hover {
